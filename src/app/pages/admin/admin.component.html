@@ -1,12 +1,35 @@
 <div class="card">
-  <div class="card-header"> Add Cource</div>
+  <!-- <button class="btn btn-primary" (click)="changeIsActive()">change isactive</button> -->
+  <div class="card-header">
+  <span appHoverColor [defaultColor]="'black'" [hoverColor]="'red'">
+    {{'Add Course'  | uppercase}}
+  </span>
+</div>
   <div class="card-body">
     <form #courseForm="ngForm" (ngSubmit)="onSubmit(courseForm)">
 
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" placeholder="Enter title" id="title" name="title" #title="ngModel"
-          [(ngModel)]="model.title" required />
+        <!-- <input
+         type="text"
+          class="form-control"
+           placeholder="Enter title"
+            id="title"
+             name="title"
+             #title="ngModel"
+          [(ngModel)]="model.title"
+           required /> -->
+
+        <input
+         type="text"
+          class="form-control"
+           placeholder="Enter title"
+            id="title"
+             name="title"
+             #title="ngModel"
+          [(ngModel)]="model().title"
+           required />
+
         @if(title.invalid && title.touched){
         <div class="text-danger">
           Title is required.
@@ -18,8 +41,25 @@
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" rows="3" placeholder="Enter description" id="description" name="description"
-          #description="ngModel" [(ngModel)]="model.description" required></textarea>
+        <!-- <textarea
+         class="form-control"
+         rows="3"
+         placeholder="Enter description"
+         id="description"
+         name="description"
+          #description="ngModel" [(ngModel)]="model.description"
+           required
+           ></textarea> -->
+
+            <textarea
+         class="form-control"
+         rows="3"
+         placeholder="Enter description"
+         id="description"
+         name="description"
+          #description="ngModel" [(ngModel)]="model().description"
+           required
+           ></textarea>
 
         @if(description.invalid && description.touched){
         <div class="text-danger">
@@ -33,7 +73,7 @@
         <input type="file" id="image" name="image" accept="image/*" multiple="false" (change)="onFileSelected($event)"
           ngModel required>
 
-        @if(cover){
+        <!-- @if(cover) {
         <div class="imageDiv" align="right">
           <img [src]="cover" alt="">
         </div>
@@ -43,18 +83,36 @@
         <div class="text-danger">
           image is required.
         </div>
+        } -->
+
+         @if(cover()) {
+        <div class="imageDiv" align="right">
+          <img [src]="cover()" alt="">
+        </div>
+        }
+
+        @if(showError()) {
+        <div class="text-danger">
+          image is required.
+        </div>
         }
       </div>
       <div class="m-3" align="center">
-        <button type="submit" class="btn btn-primary btn-lg">Save</button>
+        <button
+         type="submit"
+         class="btn btn-primary btn-lg"
+         [ngClass]="{'btn-success': isSaved()}"
+         [ngStyle]="{'color': isSaved() ? 'black' : '' }"
+         > 
+         {{ isSaved() ? 'Saved' : 'Save'}}
+        </button>
       </div>
-
     </form>
   </div>
 </div>
 
-
 <app-courses [isAdmin]="true"></app-courses>
+<!-- <app-courses [isAdmin]="true" [(isActive)]="isActive"></app-courses> -->
 
 <!-- <app-courses
  [courses]="courses"

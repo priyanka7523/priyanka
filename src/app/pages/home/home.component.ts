@@ -1,7 +1,9 @@
-import { Component,  } from '@angular/core';
+import { Component, inject,  } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CoursesComponent } from '../courses/courses.component';
 import { AboutComponent } from "../about/about.component";
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 // import { Strings } from '../../enum/strings.enum';
 
 @Component({
@@ -14,6 +16,7 @@ import { AboutComponent } from "../about/about.component";
 export class HomeComponent {
   //  courses: any[] = [];
 
+  private http = inject(HttpClient)
    constructor(
 
    ){}
@@ -22,7 +25,32 @@ export class HomeComponent {
     console.log('home ngoninit');
     //  this.getCourses();
 
+    this.fetchHttpData();
    }
+
+   async fetchHttpData() {
+    // this.http.get('https://jsonplaceholder.typicode.com//posts').subscribe({
+    //   next: (posts) => {
+    //     console.log(posts);
+    //   },
+    //   error: (e) => {
+    //     console.log(e);
+    //   }
+    // });
+
+    try{
+      const posts = await lastValueFrom(
+        this.http.get<any>('https://jsonplaceholder.typicode.com//posts')
+        );
+        console.log('posts: ' ,posts);
+
+    }catch(e){
+      console.log(e);
+    }
+
+
+   }
+
   //  getCourses(){
   //   const data =  localStorage.getItem(Strings.STORAGE_KEY);
   //     console.log(data);
